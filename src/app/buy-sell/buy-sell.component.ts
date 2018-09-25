@@ -57,28 +57,19 @@ export class BuySellComponent implements OnInit {
     }
   }
 
-  private async setDetails() {
+  private async setDetailsOfForm() {
     if (this.action === 'Buy') {
       this.title = 'Buy Stocks';
     } else {
-      try {
-        await this.stocksService.getStockInStockPortfolioByName(this.stockToBuyOrSell.name).then(x => {
-          if (x != null) {
-            this.maxQuantityToSell = x.quantity;
-            this.title = 'Sell Stocks';
-          } else {
-            this.buildErrorDialog('Stock no longer exists in your stock portfolio');
-            this.router.navigate(['/', 'stockPortfolio']);
-          }
-        })
-          .catch(e => {
-            this.buildErrorDialog('Error');
-            this.router.navigate(['/', 'stockPortfolio']);
-          });
-      } catch (e) {
-        this.buildErrorDialog('Error');
-        this.router.navigate(['/', 'stockPortfolio']);
-      }
+      await this.stocksService.getStockInStockPortfolioByName(this.stockToBuyOrSell.name).then(x => {
+        if (x != null) {
+          this.maxQuantityToSell = x.quantity;
+          this.title = 'Sell Stocks';
+        } else {
+          this.buildErrorDialog('Stock no longer exists in your stock portfolio');
+          this.router.navigate(['/', 'stockPortfolio']);
+        }
+      });
     }
   }
 
@@ -91,8 +82,8 @@ export class BuySellComponent implements OnInit {
     }
   }
 
-  private async setAll() {
-    await this.setDetails();
+  private async setAllComponent() {
+    await this.setDetailsOfForm();
     await this.setForm();
   }
 
@@ -105,7 +96,7 @@ export class BuySellComponent implements OnInit {
       const stockName = params['stockName'];
       this.stocksService.setStockToBuyOrSell(stockName).then(x => {
         this.stockToBuyOrSell = x;
-        this.setAll();
+        this.setAllComponent();
       });
     });
   }

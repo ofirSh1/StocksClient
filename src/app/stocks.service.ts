@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Stock } from './model/stock';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { StockInStockPortfolio } from './model/StockInstockPortfolio';
+import { StockInStockPortfolio } from './model/stockInstockPortfolio';
 import { StockHistory } from './model/stockHistory';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';

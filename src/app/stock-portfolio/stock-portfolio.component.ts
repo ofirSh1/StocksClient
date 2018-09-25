@@ -1,5 +1,5 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
-import { StockInStockPortfolio } from '../model/StockInstockPortfolio';
+import { Component, OnInit } from '@angular/core';
+import { StockInStockPortfolio } from '../model/stockInstockPortfolio';
 import { Observable } from 'rxjs';
 import { StocksService } from '../stocks.service';
 import { Router } from '../../../node_modules/@angular/router';

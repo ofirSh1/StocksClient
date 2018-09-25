@@ -26,9 +26,6 @@ export class StocksListComponent implements OnInit {
   buyStock(name: string) {
     this.router.navigate(['/', 'buy', 'Buy', name]);
   }
-  sellStock(name: string) {
-    this.router.navigate(['/', 'sell', 'Sell', name]);
-  }
 
   constructor(private router: Router, private stocksService: StocksService) {
     this.stocks = this.stocksService.stocks$;
