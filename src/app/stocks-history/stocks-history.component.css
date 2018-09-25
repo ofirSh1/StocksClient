@@ -1,0 +1,5 @@
+@media only screen and (max-width: 736px) and (orientation:portrait) {
+    mat-header-row, mat-row {
+     width: 200%;  
+    }
+}

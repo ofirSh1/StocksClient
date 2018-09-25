@@ -1,0 +1,45 @@
+  <h1>Stocks List</h1>
+  <br>
+  <div class="container">
+    <mat-table [dataSource]="stocks | async" class="mat-elevation-z8">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let s"> {{s.name}} </mat-cell>
+      </ng-container>
+      <!-- Opened Price Column -->
+      <ng-container matColumnDef="openedPrice">
+        <mat-header-cell *matHeaderCellDef> Opened Price </mat-header-cell>
+        <mat-cell *matCellDef="let s"> {{s.openedPrice | number}} </mat-cell>
+      </ng-container>
+      <!-- Current Price Column -->
+      <ng-container matColumnDef="currentPrice">
+        <mat-header-cell *matHeaderCellDef> Current Price </mat-header-cell>
+        <mat-cell *matCellDef="let s"> {{s.currentPrice | number}} </mat-cell>
+      </ng-container>
+      <!-- Change Column -->
+      <ng-container matColumnDef="change">
+        <mat-header-cell *matHeaderCellDef> Change * </mat-header-cell>
+        <mat-cell class="glyphicon" [ngClass]="{'greenChange glyphicon-arrow-up' : isChangeUp(s.change), 'redChange glyphicon-arrow-down': !isChangeUp(s.change)}"
+          *matCellDef="let s">
+          {{s.change | number}}
+        </mat-cell>
+      </ng-container>
+      <!-- Change % Column -->
+      <ng-container matColumnDef="changePercent">
+        <mat-header-cell *matHeaderCellDef> Change %</mat-header-cell>
+        <mat-cell [ngClass]="{'greenChange': isChangeUp(s.change), 'redChange': !isChangeUp(s.change)}" *matCellDef="let s">
+          {{calculatePercent(s.currentPrice, s.openedPrice) | percent}} </mat-cell>
+      </ng-container>
+      <!-- Action Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions</mat-header-cell>
+        <mat-cell *matCellDef="let s">
+          <button mat-flat-button type="button" (click)="buyStock(s.name)">Buy</button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    * Change according the opened price.
+  </div>

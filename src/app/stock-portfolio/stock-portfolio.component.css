@@ -1,0 +1,19 @@
+  button.mat-flat-button{
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .mat-table{
+    width: 100%;
+  }
+
+  .mat-footer-cell{
+    text-align: center;
+    font-weight: bold;
+  }
+
+  @media only screen and (max-width: 736px) and (orientation:portrait) {
+    mat-header-row, mat-row, mat-footer-row{
+     width: 200%;  
+    }
+}

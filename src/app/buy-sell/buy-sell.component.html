@@ -1,0 +1,36 @@
+<h2> {{title}}</h2>
+<br>
+<div style="text-align: center">
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="save()">
+    <p *ngIf="stockToBuyOrSell">
+      Stock Name: {{stockToBuyOrSell.name}}
+    </p>
+    <p *ngIf="stockToBuyOrSell">
+      Price: {{stockToBuyOrSell.currentPrice | number}}
+    </p>
+    <p *ngIf="maxQuantityToSell">
+      You have {{maxQuantityToSell}} to sell
+    </p>
+    <div class="md-form">
+      <mat-form-field>
+        <input matInput type="text" placeholder="Quantity" formControlName='quantity' class="form-control"/>
+        <mat-error *ngIf="form.controls['quantity'].errors?.required">
+            Quantity is <strong>required</strong>
+          </mat-error>
+        <mat-error *ngIf="form.controls['quantity'].errors?.max">
+            You can sell up to {{maxQuantityToSell}} stocks
+          </mat-error>
+          <mat-error *ngIf="form.controls['quantity'].errors?.min">
+            Minimum 1 stock
+          </mat-error>
+          <mat-error *ngIf="form.controls['quantity'].errors?.pattern">
+              Only numbers
+            </mat-error>
+      </mat-form-field>
+    </div>
+    <br> 
+    <div class="text-center">
+      <input class="inputButton" type="submit" value={{action}} [disabled]="form.invalid" />
+    </div>
+  </form>
+</div>

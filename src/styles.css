@@ -1,1 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+h1{
+    position: relative;
+    font-size: 60px;
+    margin-top: 0;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color:darkblue;
+    text-align: center;
+}
+
+h2{
+    position: relative;
+    font-size: 50px;
+    margin-top: 0;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color:darkblue;
+    text-align: center;
+}
+
+.mat-cell, .mat-header-cell, .mat-footer-cell{
+    display:flex;
+    justify-content:center;
+}
+
+.mat-header-cell{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.mat-cell{
+    font-size: 15px;
+}
