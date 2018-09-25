@@ -57,12 +57,12 @@ export class BuySellComponent implements OnInit {
     }
   }
 
-  private setDetails() {
+  private async setDetails() {
     if (this.action === 'Buy') {
       this.title = 'Buy Stocks';
     } else {
       try {
-        this.stocksService.getStockInStockPortfolioByName(this.stockToBuyOrSell.name).then(x => {
+        await this.stocksService.getStockInStockPortfolioByName(this.stockToBuyOrSell.name).then(x => {
           if (x != null) {
             this.maxQuantityToSell = x.quantity;
             this.title = 'Sell Stocks';
