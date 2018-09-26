@@ -22,7 +22,6 @@ export class StocksService {
   stocksHistory: Array<StockHistory> = [];
   stocksHistory$: BehaviorSubject<Array<StockHistory>> = new BehaviorSubject<Array<StockHistory>>([]);
 
-  stockToBuyOrSellName: string | null;
   stockToBuyOrSell: Stock | null;
 
   // -----------------------------------------------------------
@@ -41,7 +40,6 @@ export class StocksService {
         reject(error);
       } finally {
         this.stockToBuyOrSell = null;
-        this.stockToBuyOrSellName = null;
       }
     });
   }
@@ -65,7 +63,6 @@ export class StocksService {
         reject(error);
       } finally {
         this.stockToBuyOrSell = null;
-        this.stockToBuyOrSellName = null;
       }
     });
   }
@@ -94,9 +91,8 @@ export class StocksService {
   // -----------------------------------------------------------
   // get the details of a stock after user pressed buy or sell.
   setStockToBuyOrSell(stockName: string): Promise<Stock> {
-    this.stockToBuyOrSellName = stockName;
     return new Promise<Stock>((resolve, reject) => {
-      this.getStockByName().then(x => {
+      this.getStockByName(stockName).then(x => {
         this.stockToBuyOrSell = x;
         resolve(x);
       });
@@ -104,8 +100,8 @@ export class StocksService {
   }
 
   // http get request to search in the list of stocks by name.
-  private getStockByName(): Promise<Stock> {
-    const url = `${environment.serverUrl}/stocks/${this.stockToBuyOrSellName}`;
+  private getStockByName(stockName: string): Promise<Stock> {
+    const url = `${environment.serverUrl}/stocks/${stockName}`;
     return this.http.get<Stock>(url).toPromise();
   }
   // -----------------------------------------------------------
@@ -169,7 +165,6 @@ export class StocksService {
 
   constructor(private http: HttpClient) {
     this.stockToBuyOrSell = null;
-    this.stockToBuyOrSellName = null;
     this.subsriceToTables();
     this.listenToPriceChanged();
   }
