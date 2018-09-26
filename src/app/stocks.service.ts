@@ -34,16 +34,7 @@ export class StocksService {
       const req = { stock: s, stockQuantity: quantity };
       try {
         this.http.post<any>(url, JSON.stringify(req)).toPromise().then(result => {
-          const stockToChange: StockInStockPortfolio = this.stocksInPortfolio.filter(x => x.name === result.newStock.name)[0];
-          if (stockToChange != null) {
-            const index = this.stocksInPortfolio.indexOf(stockToChange);
-            this.stocksInPortfolio.splice(index, 1);
-          }
-          this.stocksInPortfolio.push(result.newStock);
-          this.stocksHistory.push(result.newHistory);
-
-          this.stocksInPortfolio$.next(this.stocksInPortfolio);
-          this.stocksHistory$.next(this.stocksHistory);
+          this.updateStocksPortfolio(result.newStock, result.newHistory);
           resolve();
         });
       } catch (error) {
@@ -64,16 +55,8 @@ export class StocksService {
           if (result.status === 400) {
             reject(result.error);
           } else {
-            const stockToChange: StockInStockPortfolio = this.stocksInPortfolio.filter(x => x.name === result.newStock.name)[0];
-            const index = this.stocksInPortfolio.indexOf(stockToChange);
-            this.stocksInPortfolio.splice(index, 1);
-            if (result.newStock.quantity !== 0) {
-              this.stocksInPortfolio.push(result.newStock);
-            }
-            this.stocksHistory.push(result.newHistory);
+            this.updateStocksPortfolio(result.newStock, result.newHistory);
           }
-          this.stocksInPortfolio$.next(this.stocksInPortfolio);
-          this.stocksHistory$.next(this.stocksHistory);
           resolve();
         }, msg => {
           reject(msg.error);
@@ -85,6 +68,21 @@ export class StocksService {
         this.stockToBuyOrSellName = null;
       }
     });
+  }
+
+  private updateStocksPortfolio(newStock: StockInStockPortfolio, newHistory: StockHistory) {
+    const stockToChange: StockInStockPortfolio = this.stocksInPortfolio.filter(x => x.name === newStock.name)[0];
+    if (stockToChange != null) { // if buy can be null
+      const index = this.stocksInPortfolio.indexOf(stockToChange);
+      this.stocksInPortfolio.splice(index, 1);
+    }
+    if (newStock.quantity !== 0) { // if sell can be 0
+      this.stocksInPortfolio.push(newStock);
+    }
+    this.stocksHistory.push(newHistory);
+
+    this.stocksInPortfolio$.next(this.stocksInPortfolio);
+    this.stocksHistory$.next(this.stocksHistory);
   }
 
   getStockInStockPortfolioByName(name: string): Promise<StockInStockPortfolio> {
